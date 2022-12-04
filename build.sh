@@ -111,14 +111,11 @@ buildtreble() {
     echo ""
     echo "--> Building treble image"
     echo ""
-    lunch miku_treble_arm64_bvN-userdebug
+    lunch miku_treble_a64_bvN-userdebug
     make installclean
     make -j$(nproc --all) systemimage
-    mv $OUT/system.img $BD/system-miku_treble_arm64_bvN.img
+    mv $OUT/system.img $BD/system-miku_treble_a64_bvN.img
     sleep 1
-    lunch miku_treble_arm64_bgN-userdebug
-    make -j$(nproc --all) systemimage
-    mv $OUT/system.img $BD/system-miku_treble_arm64_bgN.img
 }
 
 buildSasImages() {
@@ -129,9 +126,6 @@ buildSasImages() {
     sudo bash lite-adapter.sh 64 $BD/system-miku_treble_arm64_bvN.img
     cp s.img $BD/system-miku_treble_arm64_bvN-vndklite.img
     sudo rm -rf s.img d tmp
-    sudo bash lite-adapter.sh 64 $BD/system-miku_treble_arm64_bgN.img
-    cp s.img $BD/system-miku_treble_arm64_bgN-vndklite.img
-    sudo rm -rf s.img d tmp
     cd ..
 }
 
@@ -139,16 +133,11 @@ generatePackages() {
     echo ""
     echo "--> Generating packages"
     echo ""
-    BASE_IMAGE=$BD/system-miku_treble_arm64_bvN.img
+    BASE_IMAGE=$BD/system-miku_treble_a64_bvN.img
     mkdir --parents $BD/dsu/vanilla/; mv $BASE_IMAGE $BD/dsu/vanilla/system.img
-    zip -j -v $BD/MikuUI-TDA-$VERSION-arm64-ab-$BUILD_DATE-UNOFFICIAL.zip $BD/dsu/vanilla/system.img
+    zip -j -v $BD/MikuUI-TDA-$VERSION-a64-ab-$BUILD_DATE-UNOFFICIAL.zip $BD/dsu/vanilla/system.img
     mkdir --parents $BD/dsu/vanilla-vndklite/; mv ${BASE_IMAGE%.img}-vndklite.img $BD/dsu/vanilla-vndklite/system.img
-    zip -j -v $BD/MikuUI-TDA-$VERSION-arm64-ab-vndklite-$BUILD_DATE-UNOFFICIAL.zip $BD/dsu/vanilla-vndklite/system.img
-    BASE_IMAGE=$BD/system-miku_treble_arm64_bgN.img
-    mkdir --parents $BD/dsu/gapps/; mv $BASE_IMAGE $BD/dsu/gapps/system.img
-    zip -j -v $BD/MikuUI-TDA-$VERSION-arm64-ab-gapps-$BUILD_DATE-UNOFFICIAL.zip $BD/dsu/gapps/system.img
-    mkdir --parents $BD/dsu/gapps-vndklite/; mv ${BASE_IMAGE%.img}-vndklite.img $BD/dsu/gapps-vndklite/system.img
-    zip -j -v $BD/MikuUI-TDA-$VERSION-arm64-ab-gapps-vndklite-$BUILD_DATE-UNOFFICIAL.zip $BD/dsu/gapps-vndklite/system.img
+    zip -j -v $BD/MikuUI-TDA-$VERSION-a64-ab-vndklite-$BUILD_DATE-UNOFFICIAL.zip $BD/dsu/vanilla-vndklite/system.img
     rm -rf $BD/dsu
 }
 
@@ -163,13 +152,11 @@ generateOtaJson() {
         while read file; do
             packageVariant=$(echo $(basename $file) | sed -e s/^$prefix// -e s/$suffix$//)
             case $packageVariant in
-                "arm64-ab") name="miku_treble_arm64_bvN";;
-                "arm64-ab-vndklite") name="miku_treble_arm64_bvN-vndklite";;
-                "arm64-ab-gapps") name="miku_treble_arm64_bgN";;
-                "arm64-ab-gapps-vndklite") name="miku_treble_arm64_bgN-vndklite";;
+                "a64-ab") name="miku_treble_a64_bvN";;
+                "a64-ab-vndklite") name="miku_treble_a64_bvN-vndklite";;
             esac
             size=$(wc -c $file | awk '{print $1}')
-            url="https://github.com/xiaoleGun/treble_build_miku/releases/download/TDA-$VERSION/$(basename $file)"
+            url="https://github.com/MizuNotCool/treble_build_miku/releases/download/TDA-$VERSION/$(basename $file)"
             json="${json} {\"name\": \"$name\",\"size\": \"$size\",\"url\": \"$url\"},"
         done
         json="${json%?}]}"
@@ -199,9 +186,7 @@ buildtreble
 buildSasImages
 generatePackages
 generateOtaJson
-if [ $USER == xiaolegun ];then
 personal
-fi
 
 END=`date +%s`
 ELAPSEDM=$(($(($END-$START))/60))

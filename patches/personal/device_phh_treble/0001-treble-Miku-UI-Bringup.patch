@@ -41,7 +41,7 @@ index 0000000..bc0a208
 +-include vendor/miku/build/core/config.mk
 +
 +# Maintaier
-+MIKU_MASTER := xiaoleGun
++MIKU_MASTER := ItzKaguya
 \ No newline at end of file
 diff --git a/overlay-miku/packages/apps/Dialer/java/com/android/dialer/callrecord/res/values/config.xml b/overlay-miku/packages/apps/Dialer/java/com/android/dialer/callrecord/res/values/config.xml
 new file mode 100644

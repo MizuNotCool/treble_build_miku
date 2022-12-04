@@ -12,7 +12,7 @@ sleep 3
 set -e
 
 BL=$(cd $(dirname $0);pwd)
-BD=$HOME/builds
+BD=/tmp/itzkaguya/builds
 VERSION="0.6.0"
 
 initrepo() {

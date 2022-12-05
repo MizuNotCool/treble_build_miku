@@ -50,7 +50,7 @@ syncrepo() {
 echo ""
 echo "--> Syncing repos"
 echo ""
-repo sync -c --force-sync --no-clone-bundle --no-tags -j$(nproc --all)
+repo sync --no-repo-verify -c --force-sync --no-clone-bundle --no-tags --optimized-fetch --prune -j$(nproc --all)
 }
 
 applypatches() {

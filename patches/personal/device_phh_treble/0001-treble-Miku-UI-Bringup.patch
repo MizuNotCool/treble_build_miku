@@ -90,7 +90,7 @@ index 0000000..15887ba
 +<resources>
 +
 +    <!-- Maintainer Url -->
-+    <string name="miku_maintainer_uri" translatable="false">https://github.com/xiaoleGun</string>
++    <string name="miku_maintainer_uri" translatable="false">https://github.com/MizuNotCool</string>
 +
 +</resources>
 \ No newline at end of file

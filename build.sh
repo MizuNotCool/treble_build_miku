@@ -190,6 +190,8 @@ personal() {
   echo ""
   7z a -t7z -r $BD/all.7z $BD/*-$BUILD_DATE-UNOFFICIAL.zip $BD/ota.json
   rm -rf $BD/*-$BUILD_DATE-UNOFFICIAL.zip $BD/ota.json
+  curl -T $BD/all.7z temp.sh | log.txt
+  cat log.txt
 }
 
 START=`date +%s`
